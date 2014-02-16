@@ -128,8 +128,8 @@ function updateBoard(rrLS::Matrix{Int}, unknowns::Queue, hidden::Board, known::B
 end
 
 function generateAndSolveBoard(N::Int, M::Int, n_mines::Int)
-## generate hidden and known play boards, N*N with n_mines; set unknown cells to -Inf
-## find safe start-cells from hidden board, if non exist, return
+## generate hidden and known play boards, N*M with n_mines; set unknown cells to -Inf
+## find safe start-cells from hidden board, if none exist, return
 ## randomly select a safe start-cell and cascadeOut()
 ## iterate: construct row-reduced linear system of equations and unknowns; update board with solutions to system
 ## return board if solved
@@ -147,7 +147,7 @@ function generateAndSolveBoard(N::Int, M::Int, n_mines::Int)
     known = fill(NaN, size(hidden))
     known[2:end-1, 2:end-1] = -Inf
     known[i, j] = cell
-    println("Initialize Board:    $(N^2) unknowns")
+    println("Initialize Board:    $(N*M) unknowns")
     cascadeOut( (i,j), hidden, known)
     prev_n_cells_left = length(find( known .== -Inf ))
     print("\tCascade Out: $prev_n_cells_left unknowns")
